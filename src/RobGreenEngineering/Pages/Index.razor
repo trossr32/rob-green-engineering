@@ -1,0 +1,144 @@
+﻿@page "/"
+@layout MainLayout
+
+<div id="main" class="relative">
+    <div x-data="{
+    triggerNavItem(id) {
+        $scroll(id)
+    },
+    triggerMobileNavItem(id) {
+        mobileMenu = false; 
+        this.triggerNavItem(id)
+    }
+}">
+        <div>
+            <NavMenu></NavMenu>
+
+            <div class="relative bg-cover bg-center bg-no-repeat py-8" style="background-image: url(img/binary-code-background-grey.png)">
+                <div class="container relative z-30 pt-20 pb-12 sm:pt-56 sm:pb-48 lg:pt-64 lg:pb-48">
+                    <div class="flex flex-col items-center justify-center lg:flex-row">
+                        <div class="">
+                            <img src="img/transparent.white.logo.with.text.png" class="max-w-[900px] w-full" alt="logo with text" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="about">
+                <div class="container flex flex-col items-center py-16 md:py-20">
+                    <div class="w-full text-center max-w-[1000px]">
+                        <h2 class="pt-6 font-header text-xl font-medium text-black dark:text-light-green sm:text-2xl lg:text-4xl">
+                            Engineering success for your business with cutting-edge .NET and cloud solutions that leverage the latest technology
+                        </h2>
+                        <p class="pt-12 font-body leading-relaxed dark:text-light-grey text-left">
+                            Welcome to Rob Green Engineering Ltd, a company specialising in providing cost-effective and time-focused software engineering solutions. As a software engineer with extensive experience, I am dedicated to delivering high-quality services that drive business success, with a strong focus on cloud technologies like AWS using Microsoft .NET.
+                        </p>
+                        <p class="pt-6 font-body leading-relaxed dark:text-light-grey text-left">
+                            I offer a range of products and services that cater to all your software engineering needs, including full stack engineering, web application development, cloud migration, and software integration. Whether you're a startup or an established business, I'm committed to providing you with high-quality services that help you achieve your goals.
+                        </p>
+                        <p class="pt-6 font-body leading-relaxed dark:text-light-grey text-left">
+                            I take a customer-centric approach to every project, working closely with you to understand your unique business needs and provide tailored solutions that deliver measurable results. I pride myself on my agile methodology, DevOps practices, security focused mindset, and quality assurance standards, ensuring that every project is delivered on time and to the highest standard.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container py-6 md:py-10" id="experience">
+                <Experience></Experience>
+            </div>
+
+            <div class="container py-16 md:py-20 text-center" id="open-source">
+                <OpenSource></OpenSource>
+            </div>
+
+            @*<div class="bg-grey-50" id="blog">
+                <div class="container py-16 md:py-20">
+                    <h2 class="text-center font-header text-4xl font-semibold uppercase text-primary sm:text-5xl lg:text-6xl">
+                        I also like to write
+                    </h2>
+                    <h4 class="pt-6 text-center font-header text-xl font-medium text-black dark:text-white sm:text-2xl lg:text-3xl">
+                        Check out my latest posts!
+                    </h4>
+                    <div class="mx-auto grid w-full grid-cols-1 gap-6 pt-12 sm:w-3/4 lg:w-full lg:grid-cols-3 xl:gap-10">
+                        <a href="/post" class="shadow">
+                            <div style="background-image: url(img/arc/post-01.png)"
+                                 class="group relative h-72 bg-cover bg-center bg-no-repeat sm:h-84 lg:h-64 xl:h-72">
+                                <span class="absolute inset-0 block bg-gradient-to-b from-blog-gradient-from to-blog-gradient-to bg-cover bg-center bg-no-repeat opacity-10 transition-opacity group-hover:opacity-50"></span>
+                                <span class="absolute right-0 bottom-0 mr-4 mb-4 block rounded-full border-2 border-white px-6 py-2 text-center font-body text-sm font-bold uppercase text-white md:text-base">
+                                    Read
+                                    More
+                                </span>
+                            </div>
+                            <div class="bg-white py-6 px-5 xl:py-8">
+                                <span class="block font-body text-lg font-semibold text-black dark:text-white">
+                                    How to become a frontend
+                                    developer
+                                </span>
+                                <span class="block pt-2 font-body text-grey-20">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                                    elit, sed do
+                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                </span>
+                            </div>
+                        </a>
+                        <a href="/post" class="shadow">
+                            <div style="background-image: url(img/arc/post-02.png)"
+                                 class="group relative h-72 bg-cover bg-center bg-no-repeat sm:h-84 lg:h-64 xl:h-72">
+                                <span class="absolute inset-0 block bg-gradient-to-b from-blog-gradient-from to-blog-gradient-to bg-cover bg-center bg-no-repeat opacity-10 transition-opacity group-hover:opacity-50"></span>
+                                <span class="absolute right-0 bottom-0 mr-4 mb-4 block rounded-full border-2 border-white px-6 py-2 text-center font-body text-sm font-bold uppercase text-white md:text-base">
+                                    Read
+                                    More
+                                </span>
+                            </div>
+                            <div class="bg-white py-6 px-5 xl:py-8">
+                                <span class="block font-body text-lg font-semibold text-black dark:text-white">My personal productivity system</span>
+                                <span class="block pt-2 font-body text-grey-20">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                                    elit, sed do
+                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                </span>
+                            </div>
+                        </a>
+                        <a href="/post" class="shadow">
+                            <div style="background-image: url(img/arc/post-03.png)"
+                                 class="group relative h-72 bg-cover bg-center bg-no-repeat sm:h-84 lg:h-64 xl:h-72">
+                                <span class="absolute inset-0 block bg-gradient-to-b from-blog-gradient-from to-blog-gradient-to bg-cover bg-center bg-no-repeat opacity-10 transition-opacity group-hover:opacity-50"></span>
+                                <span class="absolute right-0 bottom-0 mr-4 mb-4 block rounded-full border-2 border-white px-6 py-2 text-center font-body text-sm font-bold uppercase text-white md:text-base">
+                                    Read
+                                    More
+                                </span>
+                            </div>
+                            <div class="bg-white py-6 px-5 xl:py-8">
+                                <span class="block font-body text-lg font-semibold text-black dark:text-white">My year in review 2020</span>
+                                <span class="block pt-2 font-body text-grey-20">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                                    elit, sed do
+                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>*@
+
+            <div class="bg-light-green">
+                <div class="container flex flex-col justify-between py-6 sm:flex-row">
+                    <p class="text-center font-header text-white md:text-left">
+                        © Copyright @DateTime.Now.Year. All rights reserved, Rob Green Engineering Ltd.
+                    </p>
+                    <div class="flex items-center justify-center pt-5 sm:justify-start sm:pt-0">
+                        <a href="https://github.com/trossr32" target="_blank">
+                            <i class="bx bxl-github text-2xl text-white hover:text-black"></i>
+                        </a>
+                        <a href="/" class="pl-4">
+                            <i class="bx bxl-linkedin text-2xl text-white hover:text-black"></i>
+                        </a>
+                        <a href="/" class="pl-4">
+                            <i class="bx bxl-mail text-2xl text-white hover:text-black"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
