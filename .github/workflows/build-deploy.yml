@@ -9,6 +9,7 @@ on:
 
 env:
   DOTNET_VERSION: '6.x.x'
+  NODE_VERSION: '16.x'
   SOLUTION_PATH: 'src/RobGreenEngineering.sln'
   PROJECT_PATH: 'src/RobGreenEngineering/RobGreenEngineering.csproj'
 
