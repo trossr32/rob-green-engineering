@@ -41,8 +41,5 @@
 @code {
     [Parameter] public OpenSourceModel Model { get; set; }
 
-    private async Task Navigate(string url)
-    {
-        await JSRuntime.InvokeAsync<object>("open", url, "_blank");
-    }
+    private async Task Navigate(string url) => await JSRuntime.InvokeVoidAsync("open", url, "_blank");
 }

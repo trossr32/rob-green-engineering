@@ -1,4 +1,35 @@
-﻿<div class="w-full text-center">
+﻿@using RobGreenEngineering.Models
+@{
+    var items = new List<ExperienceItemModel>
+    {
+        new()
+        {
+            Image = "gecko-logo", 
+            DateRange = "July 2022 - Present", 
+            Role = "Lead Software Engineer", 
+            Description = "Accumulating and providing in depth Electric Vehicle data to industry stakeholders.", 
+            Url = "https://geckorisk.com"
+        },
+        new()
+        {
+            Image = "zoopla-logo",
+            DateRange = "May 2021 - Present",
+            Role = "Tech Lead",
+            Description = "A property portal website and app providing estate agents with advertising through their website and affiliated partner websites.",
+            Url = "https://zoopla.co.uk"
+        },
+        new()
+        {
+            Image = "yourkeys-logo",
+            DateRange = "Jan 2019 - May 2021",
+            Role = "Senior Software Engineer",
+            Description = "The first platform to offer a completely integrated solution to accelerate the time to exchange whilst giving every stakeholder the ability to track the purchase process in real-time. Yourkeys was acquired By Zoopla in April 2021 and is now part of the Zoopla New Homes division.",
+            Url = "https://yourkeys.com"
+        }
+    };
+}
+
+<div class="w-full text-center">
     <h2 class="pt-6 font-header text-xl font-medium text-black dark:text-light-green sm:text-2xl lg:text-4xl">
         Experience
     </h2>
@@ -6,22 +37,9 @@
 
 <div class="relative mx-auto mt-12 flex w-full flex-col lg:w-2/3">
     <span class="left-2/5 absolute inset-y-0 ml-10 hidden w-0.5 bg-grey-40 md:block"></span>
-                    
-    <ExperienceItem DateRange="July 2022 - Present"
-                    Image="gecko-logo"
-                    Role="Lead Software Engineer"
-                    Description="Accumulating and providing in depth Electric Vehicle data to industry stakeholders.">
-    </ExperienceItem>
-                    
-    <ExperienceItem DateRange="May 2021 - Present"
-                    Image="zoopla-logo"
-                    Role="Tech Lead"
-                    Description="A property portal website and app providing estate agents with advertising through their website and affiliated partner websites.">
-    </ExperienceItem>
-
-    <ExperienceItem DateRange="July 2022 - Present"
-                    Image="yourkeys-logo"
-                    Role="Senior Software Engineer"
-                    Description="The first platform to offer a completely integrated solution to accelerate the time to exchange whilst giving every stakeholder the ability to track the purchase process in real-time. Yourkeys was acquired By Zoopla in April 2021 and is now part of the Zoopla New Homes division.">
-    </ExperienceItem>
+    
+    @foreach (var item in items)
+    {
+        <ExperienceItem Model="item"></ExperienceItem>
+    }
 </div>
