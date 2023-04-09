@@ -8,7 +8,7 @@
             @foreach (var link in Model.Links)
             {
                 <div class="flex justify-center text-center">
-                    <img src="/img/@(link.Image).png" alt="@link.Name icon" @onclick="() => Navigate(link.Url)"
+                    <img src="img/@(link.Image).png" alt="@link.Name icon" @onclick="() => Navigate(link.Url)"
                          class="w-3/5 transition ease-in-out delay-0 hover:scale-125 duration-300 hover:cursor-pointer"/>
                 </div>
             }
@@ -21,7 +21,7 @@
             @foreach (var link in Model.Links)
             {
                 <div class="flex justify-center text-center">
-                    <img src="/img/@(link.Image).png" alt="@link.Name icon" @onclick="() => Navigate(link.Url)"
+                    <img src="img/@(link.Image).png" alt="@link.Name icon" @onclick="() => Navigate(link.Url)"
                          class="w-3/5 transition ease-in-out delay-0 hover:scale-125 duration-300 hover:cursor-pointer"/>
                 </div>
             }
