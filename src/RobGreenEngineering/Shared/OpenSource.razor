@@ -1,0 +1,113 @@
+﻿@using RobGreenEngineering.Models
+
+@{
+    var openSourceItems = new List<OpenSourceModel>
+    {
+        new()
+        {
+            OpenSourceType = OpenSourceType.BrowserExtension,
+            Name = "Servarr browser extension",
+            Description = "An extension for Chromium and Firefox browsers that automates searching on Servarr instances based on a modified URL, and adds context menus for direct searching from any selected text.",
+            Links = new List<IOpenSourceLink>
+            {
+                new GithubOpenSourceLink("https://github.com/trossr32/sonarr-radarr-lidarr-autosearch-browser-extension"),
+                new ChromeOpenSourceLink("https://chrome.google.com/webstore/detail/sonarrradarrlidarr-autose/jmmjjcddjldjdjgckdiokhfokccdnekc"),
+                new EdgeOpenSourceLink("https://addons.mozilla.org/en-GB/firefox/addon/sonarr-radarr-lidarr-search/"),
+                new FirefoxOpenSourceLink("https://microsoftedge.microsoft.com/addons/detail/sonarrradarrlidarr-auto/aclgfcjonnhgdkinhmmafdbkpegfcnal")
+            }
+        },
+        new()
+        {
+            OpenSourceType = OpenSourceType.BrowserExtension,
+            Name = "Magnet linker browser extension",
+            Description = "An extension for Chromium and Firefox browsers that extends magnet links on websites to enable the quick adding of torrents to Transmission via the RPC API.",
+            Links = new List<IOpenSourceLink>
+            {
+                new GithubOpenSourceLink("https://github.com/trossr32/magnet-linker-browser-extension"),
+                new ChromeOpenSourceLink("https://chrome.google.com/webstore/detail/magnet-linker/neokhcngmjnlbnphpfmiidlljbpffecd"),
+                new EdgeOpenSourceLink("https://addons.mozilla.org/en-GB/firefox/addon/magnet-linker/"),
+                new FirefoxOpenSourceLink("https://microsoftedge.microsoft.com/addons/detail/magnet-linker/iagaihihgeloakmheonacpldkpogggen")
+            }
+        },
+        new()
+        {
+            OpenSourceType = OpenSourceType.PowershellModule,
+            Name = "PS Transmission",
+            Description = "A Powershell module that integrates with the Transmission RPC API.",
+            Links = new List<IOpenSourceLink>
+            {
+                new GithubOpenSourceLink("https://github.com/trossr32/ps-transmission"),
+                new PowershellGalleryOpenSourceLink("https://www.powershellgallery.com/packages/Transmission")
+            }
+        },
+        new()
+        {
+            OpenSourceType = OpenSourceType.PowershellModule,
+            Name = "PS Json To Powershell Class",
+            Description = "A Powershell module that creates Powershell classes and example usage functions from json supplied as a string, file or url. ",
+            Links = new List<IOpenSourceLink>
+            {
+                new GithubOpenSourceLink("https://github.com/trossr32/ps-json-to-powershell-class"),
+                new PowershellGalleryOpenSourceLink("https://www.powershellgallery.com/packages/JsonToPowershellClass")
+            }
+        },
+        new()
+        {
+            OpenSourceType = OpenSourceType.PowershellModule,
+            Name = "PS Image Data Uri Converter",
+            Description = "A Powershell module for data URI to/from image file conversion.",
+            Links = new List<IOpenSourceLink>
+            {
+                new GithubOpenSourceLink("https://github.com/trossr32/ps-image-data-uri-converter"),
+                new PowershellGalleryOpenSourceLink("https://www.powershellgallery.com/packages/ImageDataUriConverter")
+            }
+        },
+        new()
+        {
+            OpenSourceType = OpenSourceType.PowershellModule,
+            Name = "PS Github Repo Snapshot",
+            Description = "A Powershell module that integrates with the Github API and downloads a snapshot of all repositories for a user or organisation.",
+            Links = new List<IOpenSourceLink>
+            {
+                new GithubOpenSourceLink("https://github.com/trossr32/ps-github-repo-snapshot"),
+                new PowershellGalleryOpenSourceLink("https://www.powershellgallery.com/packages/GithubRepoSnapshot")
+            }
+        },
+        new()
+        {
+            OpenSourceType = OpenSourceType.PowershellModule,
+            Name = "PS Video Resolution",
+            Description = "A Powershell module that probes video files for their resolution and output results to host and optionally to log files.",
+            Links = new List<IOpenSourceLink>
+            {
+                new GithubOpenSourceLink("https://github.com/trossr32/ps-video-resolution"),
+                new PowershellGalleryOpenSourceLink("https://www.powershellgallery.com/packages/VideoResolution")
+            }
+        },
+        new()
+        {
+            OpenSourceType = OpenSourceType.PowershellModule,
+            Name = "PS Flatten Folders",
+            Description = "A Powershell module that moves files from all sub-directories to the parent directory.",
+            Links = new List<IOpenSourceLink>
+            {
+                new GithubOpenSourceLink("https://github.com/trossr32/ps-flatten-folders"),
+                new PowershellGalleryOpenSourceLink("https://www.powershellgallery.com/packages/FlattenFolders")
+            }
+        }
+    };
+}
+
+<h2 class="pt-6 font-header text-xl font-medium text-black dark:text-light-green sm:text-2xl lg:text-4xl">
+    Open Source
+</h2>
+<p class="pt-12 font-body leading-relaxed dark:text-light-grey">
+    A selection of open source projects and tools I maintain. Contributions always welcome!
+</p>
+
+<div class="grid grid-cols-1 gap-6 pt-10 sm:grid-cols-2 md:gap-10 md:pt-12 lg:grid-cols-3">
+    @foreach (var model in openSourceItems)
+    {
+        <OpenSourceItem Model="model"></OpenSourceItem>
+    }
+</div>
