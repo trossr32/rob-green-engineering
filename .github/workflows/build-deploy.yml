@@ -30,7 +30,7 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         
     - name: Publish
-      run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -o public -p:GHPages=true
+      run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -o public -p:GHPages=true -p:GHPagesBase="/"
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
