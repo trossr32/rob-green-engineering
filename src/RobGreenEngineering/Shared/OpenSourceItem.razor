@@ -2,31 +2,24 @@
 @inject IJSRuntime JSRuntime;
 
 <div class="group rounded px-8 py-12 shadow dark:bg-dark-green">
-    @if (Model.OpenSourceType is OpenSourceType.BrowserExtension)
-    {
-        <div class="grid grid-cols-4 gap-1 pt-2">
-            @foreach (var link in Model.Links)
-            {
-                <div class="flex justify-center text-center">
-                    <img src="img/@(link.Image).png" alt="@link.Name icon" @onclick="() => Navigate(link.Url)"
-                         class="w-3/5 transition ease-in-out delay-0 hover:scale-125 duration-300 hover:cursor-pointer"/>
-                </div>
-            }
-        </div>
+    @{
+        var gridCols = Model.Links.Count % 2 == 0 ? "grid-cols-4" : "grid-cols-3";
     }
-    else
-    {
-        <div class="grid grid-cols-4 gap-1 pt-2">
+
+    <div class="grid @gridCols gap-1 pt-2">
+        @if (Model.Links.Count < 3)
+        {
             <div></div>
-            @foreach (var link in Model.Links)
-            {
-                <div class="flex justify-center text-center">
-                    <img src="img/@(link.Image).png" alt="@link.Name icon" @onclick="() => Navigate(link.Url)"
-                         class="w-3/5 transition ease-in-out delay-0 hover:scale-125 duration-300 hover:cursor-pointer"/>
-                </div>
-            }
-        </div>
-    }
+        }
+        
+        @foreach (var link in Model.Links)
+        {
+            <div class="flex justify-center text-center">
+                <img src="img/@(link.Image).png" alt="@link.Name icon" title="@link.Title" @onclick="() => Navigate(link.Url)"
+                     class="w-3/5 transition ease-in-out delay-0 hover:scale-125 duration-300 hover:cursor-pointer max-w-[60px] max-h-[60px]" />
+            </div>
+        }
+    </div>
 
     <div class="text-center">
         <h3 class="pt-8 text-lg font-semibold uppercase text-primary lg:text-xl">
