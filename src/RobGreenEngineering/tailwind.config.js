@@ -26,6 +26,8 @@ module.exports = {
             "dark-green": "#262f20",
             "light-grey": "#e1e1e1",
             "dark-grey": "#1e1e1e",
+            "error": "crimson",
+            "warning": "darkorange",
             "grey-10": "#6c6b6d",
             "grey-20": "#7c7c7c",
             "grey-30": "#919091",
@@ -50,6 +52,9 @@ module.exports = {
         },
 
         extend: {
+            inset: {
+                13: "3.25rem"
+            },
             spacing: {
                 13: "3.25rem",
                 15: "3.75rem",
@@ -100,6 +105,29 @@ module.exports = {
             maxWidth: {
                 'main-logo': '900px',
                 'the-ton': '1000px',
+            },
+            lineHeight: {
+                'inherit': 'inherit',
+            },
+
+            animation: {
+                fadeIn: 'fadein 0.5s',
+                ping: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
+            },
+
+            keyframes: {
+                fadein: {
+                    'from': { opacity: 0 },
+                    'to': { opacity: 1 },
+                },
+                extend: {
+                    ping: {
+                        '75%, 100%': {
+                            transform: 'scale(2)',
+                            opacity: 0
+                        }
+                    }
+                }
             }
         },
     },
