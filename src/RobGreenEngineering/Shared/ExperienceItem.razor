@@ -6,7 +6,8 @@
         <div class="flex justify-center md:justify-end">
             <span class="shrink-0">
                 <img src="img/@(Model.Image).png" alt="company logo" @onclick="() => Navigate(Model.Url)"
-                     class="h-auto w-32 md:w-48 transition ease-in-out delay-0 hover:scale-110 duration-300 hover:cursor-pointer" />
+                     class="h-auto w-32 md:w-48 transition ease-in-out delay-0 hover:scale-110 duration-300 hover:cursor-pointer"
+                     title="@Model.Url" />
             </span>
         </div>
     </div>
