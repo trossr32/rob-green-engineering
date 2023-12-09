@@ -255,7 +255,9 @@ function Publish-ToCheckRun {
 
 
 
+Get-ChildItem | ForEach-Object { Write-ActionInfo $_ }
 
+return
 
 $dotnet = Get-Command dotnet -ErrorAction SilentlyContinue
 

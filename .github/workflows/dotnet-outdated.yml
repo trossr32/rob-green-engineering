@@ -14,7 +14,7 @@ env:
   PROJECT_PATH: 'src/RobGreenEngineering/RobGreenEngineering.csproj'
 
 jobs:
-  deploy-to-github-pages:
+  dotnet-outdated:
     runs-on: ubuntu-latest
 
     steps:
