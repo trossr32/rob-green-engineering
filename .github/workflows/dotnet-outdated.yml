@@ -35,7 +35,7 @@ jobs:
     - name: Run outdated script
       shell: pwsh
       run: |
-        .\Powershell\outdated.ps1
+        .\Powershell\outdated.ps1 ${{ secrets.GITHUB_TOKEN }}
         
     # - name: Restore packages
     #   run: dotnet restore ${{ env.SOLUTION_PATH }}
