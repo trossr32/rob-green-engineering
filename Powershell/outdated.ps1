@@ -88,12 +88,12 @@ New-Item -Name $tmpDir -ItemType Directory -Force
 
 function Publish-ToCheckRun {
     param(
-        [string]$reportData
+        [string] $content,
+        [bool] $success
     )
 
     Write-ActionInfo "Publishing Report to GH Workflow"
 
-    $ghToken = $github_token
     $ctx = Get-ActionContext
     $repo = Get-ActionRepo
     $repoFullName = "$($repo.Owner)/$($repo.Repo)"
@@ -119,36 +119,30 @@ function Publish-ToCheckRun {
     $conclusion = 'neutral'
     
     # Set check status based on test result outcome.    
-    if ($inputs.set_check_status_from_test_outcome) {
-
-        Write-ActionInfo "Mapping check status to test outcome..."
-
-        if ($testResult.ResultSummary_outcome -eq "Failed") {
-
-            Write-ActionWarning "Found failing tests"
-            $conclusion = 'failure'
-        }
-        elseif ($testResult.ResultSummary_outcome -eq "Completed") {
-
-            Write-ActionInfo "All tests passed"
-            $conclusion = 'success'
-        }
+    if ($success) {
+        Write-ActionInfo "All tests passed"
+        $conclusion = 'success'
+    } else {
+        Write-ActionWarning "Found failing tests"
+        $conclusion = 'failure'
     }
+
+    $now = [System.DateTime]::Now.ToString("yyyy-MM-dd HH:mm:ss.zzz")
 
     $url = "https://api.github.com/repos/$repoFullName/check-runs"
     $hdr = @{
         Accept = 'application/vnd.github.antiope-preview+json'
-        Authorization = "token $ghToken"
+        Authorization = "token $github_token"
     }
     $bdy = @{
-        name       = $report_name
+        name       = $now # $report_name
         head_sha   = $ref
         status     = 'completed'
         conclusion = $conclusion
         output     = @{
-            title   = $report_title
+            title   = $now
             summary = "This run completed at ``$([datetime]::Now)``"
-            text    = $reportData
+            text    = $content
         }
     }
 
@@ -295,12 +289,18 @@ Write-ActionInfo $outdatedOut
 if (Select-String -InputObject $outdatedOut -SimpleMatch 'No outdated dependencies' -Quiet)
 {
     Write-ActionInfo "No outdated NuGet packages found"
+
+    Publish-ToCheckRun -content "No outdated NuGet packages found" -success $true
+
     exit 0
 }
 
 if (Select-String -InputObject $outdatedOut -SimpleMatch 'Errors occurred' -Quiet)
 {
     Write-ActionError "Errors occurred while checking for outdated NuGet packages"
+
+    Publish-ToCheckRun -content "Errors occurred while checking for outdated NuGet packages" -success $false
+
     exit 1
 }
 
@@ -310,10 +310,13 @@ if (Test-Path $results_file)
 
     $markdown = Get-Content $results_file -Raw
 
-    Publish-ToCheckRun -reportData $markdown
+    Publish-ToCheckRun -reportData $markdown -success $true
     
     exit 0
 }
 
 Write-ActionError "Unknown error occurred while checking for outdated NuGet packages"
+
+Publish-ToCheckRun -content "Unknown error occurred while checking for outdated NuGet packages" -success $false
+
 exit 1
