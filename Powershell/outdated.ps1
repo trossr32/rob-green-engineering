@@ -36,9 +36,10 @@ Import-Module GitHubActions
 #     fail_build_on_failed_tests          = Get-ActionInput fail_build_on_failed_tests
 # }
 
-$tmpDir = Join-Path -Path $PSScriptRoot -ChildPath '_TMP'
-Write-ActionInfo "Resolved tmpDir as [$tmpDir]"
-$results_path = Join-Path -Path $tmpDir -ChildPath 'results.md'
+# $tmpDir = Join-Path -Path $PSScriptRoot -ChildPath '_TMP'
+# Write-ActionInfo "Resolved tmpDir as [$tmpDir]"
+# $results_path = Join-Path -Path $tmpDir -ChildPath 'results.md'
+$results_file = 'results.md'
 
 New-Item -Name $tmpDir -ItemType Directory -Force
 
@@ -280,7 +281,7 @@ dotnet restore 'src/RobGreenEngineering.sln'
 
 Write-ActionInfo "Checking for outdated NuGet packages"
 
-$outdatedOut = dotnet outdated 'src/RobGreenEngineering.sln' -f -of Markdown -o $results_path
+$outdatedOut = dotnet outdated 'src/RobGreenEngineering.sln' -f -of Markdown -o $results_file
 
 Write-ActionInfo $outdatedOut
 
@@ -296,11 +297,11 @@ if (Select-String -InputObject $outdatedOut -SimpleMatch 'Errors occurred' -Quie
     exit 1
 }
 
-if (Test-Path $results_path)
+if (Test-Path $results_file)
 {
     Write-ActionInfo "Outdated NuGet packages found"
 
-    $markdown = Get-Content $results_path -Raw
+    $markdown = Get-Content $results_file -Raw
 
     Publish-ToCheckRun -reportData $markdown
     
