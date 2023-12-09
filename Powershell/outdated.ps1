@@ -257,6 +257,7 @@ function Publish-ToCheckRun {
 
 
 
+$dotnet = Get-Command dotnet -ErrorAction SilentlyContinue
 
 if (-not $dotnet) {
     Write-ActionError "Unable to resolve the `dotnet` executable; ABORTING!"
