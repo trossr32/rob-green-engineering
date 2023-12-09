@@ -1,5 +1,12 @@
 #!/usr/bin/env pwsh
 
+param([string]$github_token)
+
+if (-not $github_token) {
+    Write-Error "GitHub Token not provided"
+    exit 1
+}
+
 ## You interface with the Actions/Workflow system by interacting
 ## with the environment.  The `GitHubActions` module makes this
 ## easier and more natural by wrapping up access to the Workflow
@@ -15,7 +22,7 @@ Import-Module GitHubActions
 
 # . $PSScriptRoot/action_helpers.ps1
 
-$inputs = @{
+# $inputs = @{
 #     project_path                        = Get-ActionInput project_path
 #     no_restore                          = Get-ActionInput no_restore
 #     no_build                            = Get-ActionInput no_build
@@ -23,7 +30,7 @@ $inputs = @{
 #     msbuild_verbosity                   = Get-ActionInput msbuild_verbosity
 #     report_name                         = Get-ActionInput report_name
 #     report_title                        = Get-ActionInput report_title
-    github_token                        = Get-ActionInput github_token -Required
+#     github_token                        = Get-ActionInput github_token -Required
 #     skip_check_run                      = Get-ActionInput skip_check_run
 #     gist_name                           = Get-ActionInput gist_name
 #     gist_badge_label                    = Get-ActionInput gist_badge_label
@@ -34,7 +41,7 @@ $inputs = @{
 #     trx_xsl_path                        = Get-ActionInput trx_xsl_path
 #     extra_test_parameters               = Get-ActionInput extra_test_parameters
 #     fail_build_on_failed_tests          = Get-ActionInput fail_build_on_failed_tests
-}
+# }
 
 # $tmpDir = Join-Path -Path $PSScriptRoot -ChildPath '_TMP'
 # Write-ActionInfo "Resolved tmpDir as [$tmpDir]"
@@ -86,7 +93,7 @@ function Publish-ToCheckRun {
 
     Write-ActionInfo "Publishing Report to GH Workflow"
 
-    $ghToken = $inputs.github_token
+    $ghToken = $github_token
     $ctx = Get-ActionContext
     $repo = Get-ActionRepo
     $repoFullName = "$($repo.Owner)/$($repo.Repo)"

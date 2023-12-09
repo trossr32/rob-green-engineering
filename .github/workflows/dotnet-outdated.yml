@@ -34,6 +34,8 @@ jobs:
 
     - name: Run outdated script
       shell: pwsh
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
       run: |
         .\Powershell\outdated.ps1
         
