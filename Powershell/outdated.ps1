@@ -40,7 +40,7 @@ $tmpDir = [System.IO.Path]::Combine($PWD, '_TMP')
 Write-ActionInfo "Resolved tmpDir as [$tmpDir]"
 $results_path = Join-Path $tmpDir results.md
 
-New-Item -Name $tmpDir -ItemType Directory -Force -ErrorAction Ignore
+New-Item -Name $tmpDir -ItemType Directory -Force
 
 # function Build-MarkdownReport {
 #     $script:report_name = $inputs.report_name
