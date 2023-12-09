@@ -255,9 +255,7 @@ function Publish-ToCheckRun {
 
 
 
-Get-ChildItem | ForEach-Object { Write-ActionInfo $_ }
-
-return
+# Get-ChildItem | ForEach-Object { Write-ActionInfo $_ }
 
 $dotnet = Get-Command dotnet -ErrorAction SilentlyContinue
 
@@ -278,11 +276,11 @@ dotnet tool install --global dotnet-outdated-tool
 
 Write-ActionInfo "Restoring NuGet packages"
 
-dotnet restore '../src/RobGreenEngineering.sln'
+dotnet restore 'src/RobGreenEngineering.sln'
 
 Write-ActionInfo "Checking for outdated NuGet packages"
 
-dotnet outdated '../src/RobGreenEngineering.sln' -f -of Markdown -o $results_path
+dotnet outdated 'src/RobGreenEngineering.sln' -f -of Markdown -o $results_path
 
 $markdown = Get-Content $results_path -Raw
 
