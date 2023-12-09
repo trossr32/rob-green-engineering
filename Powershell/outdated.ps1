@@ -36,9 +36,9 @@ Import-Module GitHubActions
 #     fail_build_on_failed_tests          = Get-ActionInput fail_build_on_failed_tests
 # }
 
-$tmpDir = [System.IO.Path]::Combine($PWD, '_TMP')
+$tmpDir = Join-Path -Path $PSScriptRoot, -ChildPath '_TMP'
 Write-ActionInfo "Resolved tmpDir as [$tmpDir]"
-$results_path = Join-Path $tmpDir results.md
+$results_path = Join-Path -Path $tmpDir -ChildPath 'results.md'
 
 New-Item -Name $tmpDir -ItemType Directory -Force
 
