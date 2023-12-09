@@ -1,0 +1,43 @@
+name: Dotnet outdated
+
+# Run workflow on every push to the master branch
+on:
+  pull_request:
+    branches: [ main ]
+  
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '8.x.x'
+  NODE_VERSION: '16.x'
+  SOLUTION_PATH: 'src/RobGreenEngineering.sln'
+  PROJECT_PATH: 'src/RobGreenEngineering/RobGreenEngineering.csproj'
+
+jobs:
+  deploy-to-github-pages:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+        # dotnet-quality: preview
+        
+    # - name: Setup Node.js ${{ env.NODE_VERSION }}
+    #   uses: actions/setup-node@v1
+    #   with:
+    #     node-version: ${{ env.NODE_VERSION }}
+
+    - name: Run outdated script
+      shell: pwsh
+      run: |
+        .\Powershell\outdated.ps1
+        
+    # - name: Restore packages
+    #   run: dotnet restore ${{ env.SOLUTION_PATH }}
+
+    # - name: Check outdated
+    #   run:
+    #     dotnet outdated ${{ env.SOLUTION_PATH }} -f
