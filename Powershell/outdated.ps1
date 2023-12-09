@@ -284,13 +284,13 @@ $outdatedOut = dotnet outdated 'src/RobGreenEngineering.sln' -f -of Markdown -o 
 
 Write-ActionInfo $outdatedOut
 
-if (Select-String -InputObject $o -SimpleMatch 'No outdated dependencies' -Quiet)
+if (Select-String -InputObject $outdatedOut -SimpleMatch 'No outdated dependencies' -Quiet)
 {
     Write-ActionInfo "No outdated NuGet packages found"
     exit 0
 }
 
-if (Select-String -InputObject $o -SimpleMatch 'Errors occurred' -Quiet)
+if (Select-String -InputObject $outdatedOut -SimpleMatch 'Errors occurred' -Quiet)
 {
     Write-ActionError "Errors occurred while checking for outdated NuGet packages"
     exit 1
