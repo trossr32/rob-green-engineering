@@ -280,89 +280,32 @@ dotnet restore 'src/RobGreenEngineering.sln'
 
 Write-ActionInfo "Checking for outdated NuGet packages"
 
-dotnet outdated 'src/RobGreenEngineering.sln' -f -of Markdown -o $results_path
+$outdatedOut = dotnet outdated 'src/RobGreenEngineering.sln' -f -of Markdown -o $results_path
 
-$markdown = Get-Content $results_path -Raw
+Write-ActionInfo $outdatedOut
 
-Publish-ToCheckRun -reportData $markdown
+if (Select-String -InputObject $o -SimpleMatch 'No outdated dependencies' -Quiet)
+{
+    Write-ActionInfo "No outdated NuGet packages found"
+    exit 0
+}
 
+if (Select-String -InputObject $o -SimpleMatch 'Errors occurred' -Quiet)
+{
+    Write-ActionError "Errors occurred while checking for outdated NuGet packages"
+    exit 1
+}
 
+if (Test-Path $results_path)
+{
+    Write-ActionInfo "Outdated NuGet packages found"
 
+    $markdown = Get-Content $results_path -Raw
 
-
-# [bool]$testsfailed = $false
-
-# if ($test_results_path) {
-#     Write-ActionInfo "TRX Test Results Path provided as input; skipping test invocation"
-# }
-# else {
-#     $dotnet = Get-Command dotnet -ErrorAction SilentlyContinue
-#     if (-not $dotnet) {
-#         Write-ActionError "Unable to resolve the `dotnet` executable; ABORTING!"
-#         exit 1
-#     }
-#     else {
-#         Write-ActionInfo "Resolved `dotnet` executable:"
-#         Write-ActionInfo "  * path.......: [$($dotnet.Path)]"
-#         $dotnetVersion = & $dotnet.Path --version
-#         Write-ActionInfo "  * version....: [$($dotnetVersion)]"
-#     }
-
-#     $trxName = 'test-results.trx'
-#     $test_results_path = Join-Path $tmpDir $trxName
-
-#     $no_restore = $inputs.no_restore
-#     $no_build = $inputs.no_build
-#     $msbuild_configuration = $inputs.msbuild_configuration
-#     $msbuild_verbosity = $inputs.msbuild_verbosity
-
-#     if (-not $msbuild_verbosity) {
-#         $msbuild_verbosity = 'normal'
-#     }
-
-#     $dotnetArgs = @(
-#         'test'
-#         '--verbosity',$msbuild_verbosity
-#         '--results-directory',$tmpDir
-#         '--logger',"`"trx;LogFileName=$trxName`""
-#     )
-
-#     if ($msbuild_configuration) {
-#         $dotnetArgs += '--configuration'
-#         $dotnetArgs += $msbuild_configuration
-#     }
+    Publish-ToCheckRun -reportData $markdown
     
-#     if ($no_restore -eq 'true') {
-#         $dotnetArgs += '--no-restore'
-#     }
+    exit 0
+}
 
-#     if ($no_build -eq 'true') {
-#         $dotnetArgs += '--no-build'
-#     }
-
-#     if ($inputs.extra_test_parameters) {
-#         # we need to add the extra parameters to the array @dotnetArgs
-#         $dotnetArgs += $inputs.extra_test_parameters -split ' '
-#     }
-
-#     # The project path has to be after all switches so this needs to be last
-#     if ($inputs.project_path) {
-#         $dotnetArgs += $inputs.project_path
-#     }
-    
-#     Write-ActionInfo "Assembled test invocation arguments:"
-#     Write-ActionInfo "    $dotnetArgs"
-
-#     Write-ActionInfo "Invoking..."
-#     & $dotnet.Path @dotnetArgs
-
-#     if (-not $?) {
-#         $testsfailed = $true
-#         Write-ActionWarning "Execution of tests returned failure: $LASTEXITCODE"
-#     }
-# }
-
-# if ($testsfailed -and $inputs.fail_build_on_failed_tests) {
-#     Write-ActionError "Tests failed so failing build..."
-#     exit 1
-# }
+Write-ActionError "Unknown error occurred while checking for outdated NuGet packages"
+exit 1
