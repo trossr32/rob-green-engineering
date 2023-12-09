@@ -13,6 +13,8 @@ env:
   SOLUTION_PATH: 'src/RobGreenEngineering.sln'
   PROJECT_PATH: 'src/RobGreenEngineering/RobGreenEngineering.csproj'
 
+permissions: write-all
+
 jobs:
   dotnet-outdated:
     runs-on: ubuntu-latest
