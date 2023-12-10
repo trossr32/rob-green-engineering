@@ -68,6 +68,7 @@ jobs:
       id: npm-outdated
       with:
         execute_directories: ${{ env.PROJECT_DIR }}
+        output_text_style: long
 
     - name: Create npm outdated comment
       id: npm-outdated-comment
@@ -78,6 +79,7 @@ jobs:
             echo "NPM_SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
         else
           printf "${{ steps.npm-outdated.outputs.npm_update_text }}" >> npm_outdated.md
+          echo ' ' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
           echo '> Outdated npm packages found, update if possible' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
           echo '> [!WARNING]' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
           echo "NPM_SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
