@@ -38,12 +38,12 @@ jobs:
             printf "## No outdated nuget packages found :rocket:" >> outdated.md
             echo "SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
         elif [[ $OUTPUT =~ "Errors occurred" ]]; then
-            printf "> [!CAUTION]" >> outdated.md
-            echo '> Failure when checking for outdated nuget packages' | cat - outdated.md > temp && mv temp outdated.md
+            printf "> Failure when checking for outdated nuget packages" >> outdated.md
+            echo '> [!CAUTION]' | cat - outdated.md > temp && mv temp outdated.md
             echo "SHOULD_FAIL=true" >> "$GITHUB_OUTPUT"
         else
+            echo '> Outdated nuget packages found, update if possible' | cat - outdated.md > temp && mv temp outdated.md
             echo '> [!WARNING]' | cat - outdated.md > temp && mv temp outdated.md
-            echo '> Outdated nuget pacakges found, update if possible' | cat - outdated.md > temp && mv temp outdated.md
             echo "SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
         fi
 
