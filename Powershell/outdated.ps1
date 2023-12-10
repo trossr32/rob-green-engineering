@@ -148,7 +148,7 @@ function Publish-ToCheckRun {
 
     $now = [System.DateTime]::Now.ToString("yyyy-MM-dd HH:mm:ss")
 
-    $url = "https://api.github.com/repos/$repoFullName/check-runs"
+    $url = "https://api.github.com/repos/$repoFullName/pulls/$pr"
     $hdr = @{
         Accept = 'application/vnd.github.antiope-preview+json'
         Authorization = "token $github_token"

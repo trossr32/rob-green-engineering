@@ -32,16 +32,45 @@ jobs:
     #   with:
     #     node-version: ${{ env.NODE_VERSION }}
 
+    # - name: Run outdated script
+    #   id: outdated
+    #   shell: pwsh
+    #   run: |
+    #     .\Powershell\outdated.ps1 ${{ secrets.GITHUB_TOKEN }} ${{ env.SOLUTION_PATH }}
+
+    - name: Install dotnet outdated tool
+      shell: bash
+      run: |
+        dotnet tool install --global dotnet-outdated-tool
+
     - name: Run outdated script
       id: outdated
-      shell: pwsh
+      shell: bash
       run: |
-        .\Powershell\outdated.ps1 ${{ secrets.GITHUB_TOKEN }} ${{ env.SOLUTION_PATH }} >> "$GITHUB_OUTPUT"
+        echo "dotnet outdated ${{ env.SOLUTION_PATH }} -of Markdown -o outdated.md"
+
+        OUTPUT=`dotnet outdated ${{ env.SOLUTION_PATH }} -of Markdown -o outdated.md`
+        echo "$OUTPUT"
+
+        if [[ $OUTPUT =~ "No outdated dependencies" ]]; then
+            printf $OUTPUT >> outdated.md
+        elif [[ $OUTPUT =~ "Errors occurred" ]]; then
+            printf $OUTPUT >> outdated.md
+            exit 1
+        else
+            echo "updates found"
+        fi
+
+    - name: Read file contents
+      id: read_file
+      uses: andstor/file-reader-action@v1
+      with:
+        path: "outdated.md"
 
     - name: Update PR
       uses: actions/github-script@v7
       env:
-        MARKDOWN: ${{ steps.outdated.outputs.MARKDOWN }}
+        MARKDOWN: ${{ steps.read_file.outputs.contents }}
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
@@ -65,14 +94,14 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               comment_id: botComment.id,
-              body: output
+              body: ${{ env.MARKDOWN }}
             })
           } else {
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: output
+              body: ${{ env.MARKDOWN }}
             })
           }
         
