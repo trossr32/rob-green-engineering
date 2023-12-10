@@ -44,13 +44,13 @@ jobs:
           # echo '> Outdated npm packages found, update if possible' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
           # echo '> [!WARNING]' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
 
-          read -r -d '' MARKDOWN <<-'EOF'
+          read -r -d '' MARKDOWN <<'EOF'
             > [!WARNING]
             > This PR contains outdated npm packages, please update if possible
-             
+
             Run ```npm outdated``` in the terminal to view locally
-             
-            EOF
+
+          EOF
 
             printf "$MARKDOWN" >> npm_outdated.md
 
