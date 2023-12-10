@@ -35,7 +35,7 @@ jobs:
         echo "$OUTPUT"
 
         if [[ $OUTPUT =~ "No outdated dependencies" ]]; then
-            printf "## No outdated dependencies found :rocket:" >> outdated.md
+            printf "## No outdated nuget packages found :rocket:" >> outdated.md
             echo "SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
         elif [[ $OUTPUT =~ "Errors occurred" ]]; then
             printf "> [!CAUTION]" >> outdated.md
