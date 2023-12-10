@@ -11,8 +11,6 @@ env:
   DOTNET_VERSION: '8.x.x'
   SOLUTION_PATH: 'src/RobGreenEngineering.sln'
 
-# permissions: write-all
-
 jobs:
   dotnet-outdated:
     runs-on: ubuntu-latest
