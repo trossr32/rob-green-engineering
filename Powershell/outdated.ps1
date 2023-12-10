@@ -1,6 +1,9 @@
 #!/usr/bin/env pwsh
 
-param([string]$github_token)
+param(
+    [string] $github_token,
+    [string] $solution_path
+)
 
 if (-not $github_token) {
     Write-Error "GitHub Token not provided"
@@ -99,20 +102,37 @@ function Publish-ToCheckRun {
     $repoFullName = "$($repo.Owner)/$($repo.Repo)"
 
     Write-ActionInfo "Resolving REF"
+    
     $ref = $ctx.Sha
+    $pr = '0'
+    
     if ($ctx.EventName -eq 'pull_request') {
         Write-ActionInfo "Resolving PR REF"
+        
         $ref = $ctx.Payload.pull_request.head.sha
+        
         if (-not $ref) {
             Write-ActionInfo "Resolving PR REF as AFTER"
             $ref = $ctx.Payload.after
         }
+
+        Write-ActionInfo "Resolving PR Number"
+        
+        $pr = Get-ActionIssue
     }
+
     if (-not $ref) {
         Write-ActionError "Failed to resolve REF"
         exit 1
     }
+
+    if (-not $pr) {
+        Write-ActionError "Failed to resolve PR Number"
+        exit 1
+    }
+    
     Write-ActionInfo "Resolved REF as $ref"
+    Write-ActionInfo "Resolved PR Number as $pr"
     Write-ActionInfo "Resolve Repo Full Name as $repoFullName"
 
     Write-ActionInfo "Adding Check Run"
@@ -121,13 +141,14 @@ function Publish-ToCheckRun {
     # Set check status based on test result outcome.    
     if ($success) {
         Write-ActionInfo "All tests passed"
+
         $conclusion = 'success'
     } else {
         Write-ActionWarning "Found failing tests"
         $conclusion = 'failure'
     }
 
-    $now = [System.DateTime]::Now.ToString("yyyy-MM-dd HH:mm:ss.zzz")
+    $now = [System.DateTime]::Now.ToString("yyyy-MM-dd HH:mm:ss")
 
     $url = "https://api.github.com/repos/$repoFullName/check-runs"
     $hdr = @{
@@ -278,11 +299,11 @@ dotnet tool install --global dotnet-outdated-tool
 
 Write-ActionInfo "Restoring NuGet packages"
 
-dotnet restore 'src/RobGreenEngineering.sln'
+dotnet restore $solution_path
 
 Write-ActionInfo "Checking for outdated NuGet packages"
 
-$outdatedOut = dotnet outdated 'src/RobGreenEngineering.sln' -f -of Markdown -o $results_file
+$outdatedOut = dotnet outdated $solution_path -f -of Markdown -o $results_file
 
 Write-ActionInfo $outdatedOut
 
