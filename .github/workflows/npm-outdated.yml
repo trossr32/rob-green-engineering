@@ -38,13 +38,13 @@ jobs:
             printf "## No outdated npm packages found :rocket:" >> npm_outdated.md
             echo "NPM_SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
         else
-            read -r -d '' MARKDOWN <<'EOF'
+          read -r -d '' MARKDOWN <<'EOF'
             > [!WARNING]
             > This PR contains outdated npm packages, please update if possible
              
             Run ```npm outdated``` in the terminal to view locally
              
-            ${{ steps.npm-outdated-check.outputs.npm_update_text }}" >> npm_outdated.md
+            ${{ steps.npm-outdated-check.outputs.npm_update_text }}
             EOF
 
             printf "$MARKDOWN" >> npm_outdated.md
