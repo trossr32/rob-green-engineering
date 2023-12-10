@@ -104,7 +104,7 @@ function Publish-ToCheckRun {
     Write-ActionInfo "Resolving REF"
     
     $ref = $ctx.Sha
-    $pr = '0'
+    $pr = 0
     
     if ($ctx.EventName -eq 'pull_request') {
         Write-ActionInfo "Resolving PR REF"
@@ -118,17 +118,15 @@ function Publish-ToCheckRun {
 
         Write-ActionInfo "Resolving PR Number"
         
-        $pr = Get-ActionIssue
+        $pr = (Get-ActionIssue).Number
     }
 
     if (-not $ref) {
-        Write-ActionError "Failed to resolve REF"
-        exit 1
+        Set-ActionFailed "Failed to resolve REF"
     }
 
-    if (-not $pr) {
-        Write-ActionError "Failed to resolve PR Number"
-        exit 1
+    if (-not ($pr -gt 0)) {
+        Set-ActionFailed "Failed to resolve PR Number"
     }
     
     Write-ActionInfo "Resolved REF as $ref"
@@ -283,10 +281,8 @@ function Publish-ToCheckRun {
 $dotnet = Get-Command dotnet -ErrorAction SilentlyContinue
 
 if (-not $dotnet) {
-    Write-ActionError "Unable to resolve the `dotnet` executable; ABORTING!"
-    exit 1
-}
-else {
+    Set-ActionFailed "Unable to resolve the `dotnet` executable; ABORTING!"
+} else {
     Write-ActionInfo "Resolved `dotnet` executable:"
     Write-ActionInfo "  * path.......: [$($dotnet.Path)]"
     $dotnetVersion = & $dotnet.Path --version
@@ -311,18 +307,18 @@ if (Select-String -InputObject $outdatedOut -SimpleMatch 'No outdated dependenci
 {
     Write-ActionInfo "No outdated NuGet packages found"
 
-    Publish-ToCheckRun -content "No outdated NuGet packages found" -success $true
+    # Publish-ToCheckRun -content "No outdated NuGet packages found" -success $true
+    Set-ActionOutput -Name MARKDOWN -Value "No outdated NuGet packages found"
 
     exit 0
 }
 
 if (Select-String -InputObject $outdatedOut -SimpleMatch 'Errors occurred' -Quiet)
 {
-    Write-ActionError "Errors occurred while checking for outdated NuGet packages"
+    # Publish-ToCheckRun -content "Errors occurred while checking for outdated NuGet packages" -success $false
+    Set-ActionOutput -Name MARKDOWN -Value "Errors occurred while checking for outdated NuGet packages"
 
-    Publish-ToCheckRun -content "Errors occurred while checking for outdated NuGet packages" -success $false
-
-    exit 1
+    Set-ActionFailed "Errors occurred while checking for outdated NuGet packages"
 }
 
 if (Test-Path $results_file)
@@ -331,13 +327,16 @@ if (Test-Path $results_file)
 
     $markdown = Get-Content $results_file -Raw
 
-    Publish-ToCheckRun -reportData $markdown -success $true
+    Set-ActionOutput -Name MARKDOWN -Value $markdown
+
+    # Publish-ToCheckRun -reportData $markdown -success $true
     
     exit 0
 }
 
-Write-ActionError "Unknown error occurred while checking for outdated NuGet packages"
+# Publish-ToCheckRun -content "Unknown error occurred while checking for outdated NuGet packages" -success $false
+Set-ActionOutput -Name MARKDOWN -Value "Unknown error occurred while checking for outdated NuGet packages"
 
-Publish-ToCheckRun -content "Unknown error occurred while checking for outdated NuGet packages" -success $false
+Set-ActionFailed "Unknown error occurred while checking for outdated NuGet packages"
 
 exit 1
