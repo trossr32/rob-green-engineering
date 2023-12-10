@@ -94,14 +94,14 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               comment_id: botComment.id,
-              body: ${{ env.MARKDOWN }}
+              body: '${{ env.MARKDOWN }}'
             })
           } else {
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: ${{ env.MARKDOWN }}
+              body: '${{ env.MARKDOWN }}'
             })
           }
         
