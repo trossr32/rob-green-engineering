@@ -68,10 +68,11 @@ jobs:
       id: npm-outdated
       with:
         execute_directories: ${{ env.PROJECT_DIR }}
-        output_text_style: long
+        output_text_style: short
 
     - name: Create npm outdated comment
       id: npm-outdated-comment
+      working-directory: ${{ env.PROJECT_DIR }}
       shell: bash
       run: |
         if [[ "${{ steps.npm-outdated.outputs.has_npm_update }}" = "false" ]]; then
@@ -79,8 +80,7 @@ jobs:
             echo "NPM_SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
         else
           OUTPUT=`npm outdated`
-          # printf "${{ steps.npm-outdated.outputs.npm_update_text }}" >> npm_outdated.md
-          printf $OUTPUT >> npm_outdated.md
+          printf "$OUTPUT" >> npm_outdated.md
           echo ' ' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
           echo '> Outdated npm packages found, update if possible' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
           echo '> [!WARNING]' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
@@ -90,5 +90,5 @@ jobs:
     - name: NPM outdated PR comment
       uses: thollander/actions-comment-pull-request@v2
       with:
-        filePath: "npm_outdated.md"
+        filePath: "${{ env.PROJECT_DIR }}/npm_outdated.md"
         comment_tag: npm_outdated
