@@ -9,6 +9,7 @@ on:
   workflow_dispatch:
 
 env:
+  NODE_VERSION: '16.x'
   PROJECT_DIR: 'src/RobGreenEngineering'
 
 jobs:
@@ -17,6 +18,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+        
+    - name: Setup Node.js ${{ env.NODE_VERSION }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ env.NODE_VERSION }}
 
     - name: NPM install
       working-directory: ${{ env.PROJECT_DIR }}
