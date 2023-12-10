@@ -3,6 +3,7 @@ name: Dotnet outdated
 # Run workflow on pull request to the main branch
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     branches: [ main ]
   
   workflow_dispatch:
