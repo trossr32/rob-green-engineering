@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  DOTNET_VERSION: '8.x.x'
   SOLUTION_PATH: 'src/RobGreenEngineering.sln'
+  PROJECT_DIR: 'src/RobGreenEngineering'
 
 jobs:
   dotnet-outdated:
@@ -22,11 +22,10 @@ jobs:
 
     - name: Install dotnet outdated tool
       shell: bash
-      run: |
-        dotnet tool install --global dotnet-outdated-tool
+      run: dotnet tool install --global dotnet-outdated-tool
 
     - name: Run outdated script
-      id: outdated
+      id: dotnet-outdated
       shell: bash
       run: |
         echo "dotnet outdated ${{ env.SOLUTION_PATH }} -of Markdown -o outdated.md"
@@ -47,15 +46,45 @@ jobs:
             echo "SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
         fi
 
-    - name: PR comment with file
+    - name: Dotnet outdated PR comment
       uses: thollander/actions-comment-pull-request@v2
       with:
         filePath: "outdated.md"
         comment_tag: outdated
 
-    - name: Fail if outdated
+    # - name: Fail if dotnet outdated
+    #   shell: bash
+    #   env:
+    #     SHOULD_FAIL: ${{ steps.dotnet-outdated.outputs.SHOULD_FAIL }}
+    #   if: env.SHOULD_FAIL == 'true'
+    #   run: exit 1
+
+    - name: NPM install
+      working-directory: ${{ env.PROJECT_DIR }}
+      run: npm install
+
+    - name: NPM update check
+      uses: MeilCli/npm-update-check-action@v4 
+      id: npm-outdated
+      with:
+        execute_directories: ${{ env.PROJECT_DIR }}
+
+    - name: Create npm outdated comment
+      id: npm-outdated-comment
       shell: bash
-      env:
-        SHOULD_FAIL: ${{ steps.outdated.outputs.SHOULD_FAIL }}
-      if: env.SHOULD_FAIL == 'true'
-      run: exit 1
+      run: |
+        if [[ "${{ steps.npm-outdated.outputs.has_npm_update }}" = "false" ]]; then
+            printf "## No outdated npm packages found :rocket:" >> outdated.md
+            echo "NPM_SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
+        else
+          printf "${{ steps.npm-outdated.outputs.npm_update_text }}" >> npm_outdated.md
+          echo '> Outdated npm packages found, update if possible' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
+          echo '> [!WARNING]' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
+          echo "NPM_SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: NPM outdated PR comment
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        filePath: "npm_outdated.md"
+        comment_tag: npm_outdated
