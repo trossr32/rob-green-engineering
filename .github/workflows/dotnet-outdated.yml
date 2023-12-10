@@ -75,16 +75,16 @@ jobs:
       working-directory: ${{ env.PROJECT_DIR }}
       shell: bash
       run: |
-        if [[ "${{ steps.npm-outdated.outputs.has_npm_update }}" = "false" ]]; then
-            printf "## No outdated npm packages found :rocket:" >> outdated.md
+        if [[ "${{ steps.npm-outdated.outputs.has_npm_update }}" == "false" ]]; then
+            printf "## No outdated npm packages found :rocket:" >> npm_outdated.md
             echo "NPM_SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
         else
-          OUTPUT=`npm outdated`
-          printf "$OUTPUT" >> npm_outdated.md
-          echo ' ' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
-          echo '> Outdated npm packages found, update if possible' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
-          echo '> [!WARNING]' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
-          echo "NPM_SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
+            OUTPUT=`npm outdated`
+            printf "$OUTPUT" >> npm_outdated.md
+            echo ' ' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
+            echo '> Outdated npm packages found, update if possible' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
+            echo '> [!WARNING]' | cat - npm_outdated.md > temp && mv temp npm_outdated.md
+            echo "NPM_SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
         fi
 
     - name: NPM outdated PR comment
