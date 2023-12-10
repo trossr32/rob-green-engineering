@@ -50,7 +50,6 @@ jobs:
              
             Run ```npm outdated``` in the terminal to view locally
              
-            ${{ steps.npm-outdated-check.outputs.npm_update_text }}
             EOF
 
             printf "$MARKDOWN" >> npm_outdated.md
