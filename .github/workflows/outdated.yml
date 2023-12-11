@@ -17,9 +17,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: trossr32/outdated-packages-action@v0.0.3
-      with:
-        use-dotnet-outdated: true
-        dotnet-solution-path: ${{ env.SOLUTION_PATH }}
-        use-npm-outdated: true
-        npm-project-directory: ${{ env.PROJECT_DIR }}
+      - uses: bagbyte/use-private-action@v0.0.2
+        with:
+          private-action: trossr32/outdated-packages-action@v0.0.3
+          private-action-token: ${{ secrets.PRIVATE_REPO_ACCESS_TOKEN }}
+        
+      - uses: trossr32/outdated-packages-action@v0.0.3
+        with:
+          use-dotnet-outdated: true
+          dotnet-solution-path: ${{ env.SOLUTION_PATH }}
+          use-npm-outdated: true
+          npm-project-directory: ${{ env.PROJECT_DIR }}
