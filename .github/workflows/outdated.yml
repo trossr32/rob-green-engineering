@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:        
-      - uses: trossr32/outdated-packages-action@v0.0.4
+      - uses: trossr32/outdated-packages-action@v0.0.5
         with:
           use-dotnet-outdated: true
           dotnet-solution-path: ${{ env.SOLUTION_PATH }}
