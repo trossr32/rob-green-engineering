@@ -23,7 +23,6 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-        dotnet-quality: preview
         
     - name: Setup Node.js ${{ env.NODE_VERSION }}
       uses: actions/setup-node@v1

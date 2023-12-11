@@ -1,0 +1,60 @@
+name: Dotnet outdated
+
+# Run workflow on pull request to the main branch
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [ main ]
+  
+  workflow_dispatch:
+
+env:
+  SOLUTION_PATH: 'src/RobGreenEngineering.sln'
+
+jobs:
+  dotnet-outdated:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Restore packages
+      run: dotnet restore ${{ env.SOLUTION_PATH }}
+
+    - name: Install dotnet outdated tool
+      shell: bash
+      run: dotnet tool install --global dotnet-outdated-tool
+
+    - name: Run outdated script
+      id: dotnet-outdated
+      shell: bash
+      run: |
+        echo "dotnet outdated ${{ env.SOLUTION_PATH }} -of Markdown -o outdated.md"
+
+        OUTPUT=`dotnet outdated ${{ env.SOLUTION_PATH }} -of Markdown -o outdated.md`
+        echo "$OUTPUT"
+
+        if [[ $OUTPUT =~ "No outdated dependencies" ]]; then
+            printf "## No outdated nuget packages found :rocket:" >> outdated.md
+            echo "SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
+        elif [[ $OUTPUT =~ "Errors occurred" ]]; then
+            printf "> Failure when checking for outdated nuget packages" >> outdated.md
+            echo '> [!CAUTION]' | cat - outdated.md > temp && mv temp outdated.md
+            echo "SHOULD_FAIL=true" >> "$GITHUB_OUTPUT"
+        else
+            echo '> Outdated nuget packages found, update if possible' | cat - outdated.md > temp && mv temp outdated.md
+            echo '> [!WARNING]' | cat - outdated.md > temp && mv temp outdated.md
+            echo "SHOULD_FAIL=false" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Dotnet outdated PR comment
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        filePath: "outdated.md"
+        comment_tag: outdated
+
+    # - name: Fail if dotnet outdated
+    #   shell: bash
+    #   env:
+    #     SHOULD_FAIL: ${{ steps.dotnet-outdated.outputs.SHOULD_FAIL }}
+    #   if: env.SHOULD_FAIL == 'true'
+    #   run: exit 1

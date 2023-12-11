@@ -1,0 +1,25 @@
+name: Dotnet outdated
+
+# Run workflow on pull request to the main branch
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [ main ]
+  
+  workflow_dispatch:
+
+env:
+  SOLUTION_PATH: 'src/RobGreenEngineering.sln'
+  PROJECT_DIR: 'src/RobGreenEngineering'
+
+jobs:
+  dotnet-outdated:
+    runs-on: ubuntu-latest
+
+    steps:        
+      - uses: trossr32/outdated-packages-action@v0.0.5
+        with:
+          use-dotnet-outdated: true
+          dotnet-solution-path: ${{ env.SOLUTION_PATH }}
+          use-npm-outdated: true
+          npm-project-directory: ${{ env.PROJECT_DIR }}
