@@ -1,4 +1,4 @@
-name: Dotnet outdated
+name: Outdated package checks
 
 # Run workflow on pull request to the main branch
 on:
@@ -13,10 +13,10 @@ env:
   PROJECT_DIR: 'src/RobGreenEngineering'
 
 jobs:
-  dotnet-outdated:
+  outdated-packages-check:
     runs-on: ubuntu-latest
 
-    steps:        
+    steps:
       - uses: trossr32/outdated-packages-action@v0.0.5
         with:
           use-dotnet-outdated: true
