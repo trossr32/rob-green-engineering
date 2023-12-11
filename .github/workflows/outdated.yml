@@ -16,13 +16,8 @@ jobs:
   dotnet-outdated:
     runs-on: ubuntu-latest
 
-    steps:
-      - uses: bagbyte/use-private-action@v0.0.2
-        with:
-          private-action: trossr32/outdated-packages-action@v0.0.3
-          private-action-token: ${{ secrets.PRIVATE_REPO_ACCESS_TOKEN }}
-        
-      - uses: trossr32/outdated-packages-action@v0.0.3
+    steps:        
+      - uses: trossr32/outdated-packages-action@v0.0.4
         with:
           use-dotnet-outdated: true
           dotnet-solution-path: ${{ env.SOLUTION_PATH }}
