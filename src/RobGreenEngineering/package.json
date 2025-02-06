@@ -1,5 +1,5 @@
 {
-  "name": "rob green engineering",
+  "name": "rob green engineering powershell web",
   "version": "1.0.0",
   "description": "",
   "author": "",
@@ -16,7 +16,7 @@
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.2",
-    "browser-sync": "^2.27.7",
+    "browser-sync": "^3.0.3",
     "concurrently": "^8.2.2",
     "cssnano": "^6.0.1",
     "postcss-cli": "^11.0.0"
