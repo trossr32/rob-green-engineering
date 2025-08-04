@@ -1,5 +1,5 @@
 ﻿@using RobGreenEngineering.Models
-@inject IJSRuntime JSRuntime;
+@inject IJSRuntime JsRuntime;
 
 <div class="mt-8 flex flex-col text-center md:flex-row md:text-left">
     <div class="md:w-2/5">
@@ -43,5 +43,5 @@
 @code {
     [Parameter] public ExperienceItemModel Model { get; set; }
 
-    private async Task Navigate(string url) => await JSRuntime.InvokeVoidAsync("open", url, "_blank");
+    private async Task Navigate(string url) => await JsRuntime.InvokeVoidAsync("open", url, "_blank");
 }
