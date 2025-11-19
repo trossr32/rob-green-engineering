@@ -18,15 +18,27 @@ public class OpenSourceLink
     public string Image { get; set; }
 }
 
-public class GithubOpenSourceLink : OpenSourceLink, IOpenSourceLink
+public class GithubRepoOpenSourceLink : OpenSourceLink, IOpenSourceLink
 {
-    public GithubOpenSourceLink(string url)
+    public GithubRepoOpenSourceLink(string url)
     {
-        LinkType = OpenSourceLinkType.Github;
+        LinkType = OpenSourceLinkType.GithubRepo;
         Name = "github";
         Image = "github-icon";
         Url = url;
         Title = "View this repository on github";
+    }
+}
+
+public class GithubMarketplaceOpenSourceLink : OpenSourceLink, IOpenSourceLink
+{
+    public GithubMarketplaceOpenSourceLink(string url)
+    {
+        LinkType = OpenSourceLinkType.GithubMarketplace;
+        Name = "github marketplace";
+        Image = "github-marketplace-icon";
+        Url = url;
+        Title = "View this action on github marketplace";
     }
 }
 
@@ -107,12 +119,14 @@ public class OpenSourceLinkModel
 public enum OpenSourceType
 {
     BrowserExtension,
-    PowershellModule
+    PowershellModule,
+    GithubAction
 }
 
 public enum OpenSourceLinkType
 {
-    Github,
+    GithubRepo,
+    GithubMarketplace,
     Chrome,
     Edge,
     Firefox,

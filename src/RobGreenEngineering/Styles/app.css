@@ -1,6 +1,11 @@
-﻿@tailwind base;
-@tailwind components;
-@tailwind utilities;
+﻿@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@source "../**/*.razor";
+@source "../**/*.cshtml";
+@source "../**/*TagHelper.cs";
+@source "../**/*.{js,ts}";
+
 
 @layer components {
     .transition-scale-hover-md {
