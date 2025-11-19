@@ -4,9 +4,9 @@
   "description": "",
   "author": "",
   "scripts": {
-    "build": "cross-env NODE_ENV=development ./node_modules/tailwindcss/lib/cli.js -i ./Styles/app.css -o ./wwwroot/css/app.css",
-    "watch": "cross-env NODE_ENV=development ./node_modules/tailwindcss/lib/cli.js -i ./Styles/app.css -o ./wwwroot/css/app.css --watch",
-    "release": "cross-env NODE_ENV=production ./node_modules/tailwindcss/lib/cli.js -i ./Styles/app.css -o ./wwwroot/css/app.css --minify"
+    "build": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/app.css",
+    "watch": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/app.css --watch",
+    "release": "tailwindcss -i ./Styles/app.css -o ./wwwroot/css/app.css --minify"
   },
   "browserslist": [
     "last 2 versions",
@@ -15,18 +15,19 @@
   "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.5.7",
-    "@tailwindcss/typography": "^0.5.2",
+    "@tailwindcss/typography": "^0.5.19",
     "browser-sync": "^3.0.3",
-    "concurrently": "^8.2.2",
-    "cssnano": "^6.0.1",
+    "concurrently": "^9.2.1",
+    "cssnano": "^7.1.2",
     "postcss-cli": "^11.0.0"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.2",
-    "cross-env": "^7.0.3",
+    "autoprefixer": "^10.4.22",
+    "cross-env": "^10.1.0",
     "postcss": "^8.4.7",
     "prettier": "^3.1.1",
-    "prettier-plugin-tailwindcss": "^0.5.9",
-    "tailwindcss": "^3.0.23"
+    "prettier-plugin-tailwindcss": "^0.7.1",
+    "@tailwindcss/cli": "^4.1.17",
+    "tailwindcss": "^4.1.17"
   }
 }

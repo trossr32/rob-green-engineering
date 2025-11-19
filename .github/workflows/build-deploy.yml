@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOTNET_VERSION: '9.x.x'
+  DOTNET_VERSION: '10.x.x'
   NODE_VERSION: '20.x'
   SOLUTION_PATH: 'src/RobGreenEngineering.sln'
   PROJECT_PATH: 'src/RobGreenEngineering/RobGreenEngineering.csproj'
@@ -18,14 +18,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
         
     - name: Setup Node.js ${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
         node-version: ${{ env.NODE_VERSION }}
         
@@ -33,7 +33,7 @@ jobs:
       run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -o public -p:GHPages=true -p:GHPagesBase="/"
 
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: public/wwwroot
