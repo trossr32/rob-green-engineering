@@ -7,13 +7,13 @@
             <span class="shrink-0">
                 @if (!string.IsNullOrWhiteSpace(Model.Url))
                 {
-                    <img src="img/@(Model.Image).png" alt="company logo" @onclick="() => Navigate(Model.Url)"
+                    <img src="img/@(Model.Image)" alt="company logo" @onclick="() => Navigate(Model.Url)"
                          class="h-auto w-32 md:w-48 transition ease-in-out delay-0 hover:scale-110 duration-300 hover:cursor-pointer"
                          title="@Model.Url"/>
                 }
                 else
                 {
-                    <img src="img/@(Model.Image).png" alt="company logo"
+                    <img src="img/@(Model.Image)" alt="company logo"
                          class="h-auto w-32 md:w-48 transition ease-in-out delay-0 hover:scale-110 duration-300"
                          title="Website coming soon!" />
                 }
